@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import TableList from '@/components/TableList'
-import { Input } from 'antd'
+import { Input, Divider } from 'antd'
 import { ProColumns } from '@ant-design/pro-table';
 import { getAreasList, addAreas, updateAreas, deleteAreas } from './service';
 
 const areasTableList: React.FC<{}> = () => {
+  const parentRef = useRef()
   const columns: ProColumns<{}>[] = [
     {
       title: '区域名称',
@@ -25,8 +26,8 @@ const areasTableList: React.FC<{}> = () => {
       title: '是否启用',
       dataIndex: 'is_enabled',
       valueEnum: {
-        0: {text: '否'},
-        1: {text: '是'},
+        0: { text: '否' },
+        1: { text: '是' },
       },
       rules: [
         {
@@ -39,23 +40,37 @@ const areasTableList: React.FC<{}> = () => {
       dataIndex: 'id',
       hideInTable: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value}/>;
+        return <Input type='hidden' value={value} />;
       },
     },
     {
       dataIndex: 'parent_id',
       hideInTable: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value}/>;
+        return <Input type='hidden' value={value} />;
       },
     }
   ]
   return (
     <TableList
+      ref={parentRef}
       headerTitle="区域字典列表"
       modalTitle="区域字典"
       isAction
       isActionBar
+      actionRender={(record: any) => {
+        const btn = record.level === '3' ? null : <><a
+          onClick={() => {
+            const newRecord = {
+              parent_id: record.id
+            }
+            parentRef.current.showAddModal(newRecord)
+          }}
+        >
+          添加
+      </a><Divider type="vertical" /></>
+        return btn
+      }}
       columns={columns}
       getData={getAreasList}
       addData={addAreas}

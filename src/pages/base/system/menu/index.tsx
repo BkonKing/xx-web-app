@@ -82,6 +82,7 @@ const adminTableList: React.FC<{}> = () => {
       modalTitle="管理用户"
       columns={columns}
       getData={getMenuList}
+      isAction
       isActionBar
       actionRender={(record:any) => {
         return <><a

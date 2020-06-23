@@ -6,6 +6,7 @@ import { ProColumns } from '@ant-design/pro-table';
 import { genderObj } from '@/const/columns'
 import { isPhone } from '@/utils/validate'
 import { getAdminList, addAdmin, updateAdmin, deleteAdmin } from './service'
+import styles from './style.less'
 
 const adminTableList: React.FC<{}> = () => {
   const columns: ProColumns<{}>[] = [
@@ -24,8 +25,12 @@ const adminTableList: React.FC<{}> = () => {
       dataIndex: 'password',
       hideInTable: true,
       renderFormItem: (item, { value, onChange }) => {
+        const warning = value ?
+          <div className={styles.warning__text}>修改状态下密码不更改则不会更新密码</div>
+          : ''
         return <>
-          <Input.Password placeholder="修改状态下密码不填则不更新密码" value={value} onChange={onChange} />
+          <Input.Password value={value} onChange={onChange} />
+          {warning}
         </>
       }
     },
@@ -38,9 +43,12 @@ const adminTableList: React.FC<{}> = () => {
       dataIndex: 'mobile',
       rules: [
         {
-          validator: (_, value) =>
-            isPhone(value) ? Promise.resolve()
-              : Promise.reject('请输入正确的手机号或电话格式')
+          validator: (_, value) => {
+            if (!value || isPhone(value)) {
+              return Promise.resolve()
+            }
+            return Promise.reject('请输入正确的手机号或电话格式')
+          }
         }
       ]
     },
@@ -85,7 +93,6 @@ const adminTableList: React.FC<{}> = () => {
       modalTitle="管理用户"
       columns={columns}
       getData={getAdminList}
-      selectabled
       isAction
       isActionBar
       pagination

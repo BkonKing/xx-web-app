@@ -21,7 +21,7 @@ export async function updateExpress(params: any) {
 }
 
 export async function deleteExpress(params: any) {
-  return request('/basicset/express/addExpress', {
+  return request('/basicset/express/deleteExpress', {
     method: 'POST',
     data: params
   });

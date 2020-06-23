@@ -83,8 +83,10 @@ request.interceptors.request.use(async (url: any, options: any) => {
 
 // response拦截器, 处理response
 request.interceptors.response.use(async (response) => {
-  if (response.status === 401) {
-    const res = await getToken({
+  const data = await response.clone().json();
+  if (response.status === 401 || data.code === '401') {
+    const isGetToken = response.url.indexOf('getToken') !== -1
+    const res = !isGetToken && await getToken({
       headers: {
         'Authorization': getStore({ name: 'refresh_token' })
       }
@@ -104,12 +106,11 @@ request.interceptors.response.use(async (response) => {
       removeStore({ name: 'access_token' })
       removeStore({ name: 'refresh_token' })
       history.replace({
-        pathname: '/user/login'
+        pathname: '/login'
       });
     }
     return false
   }
-  const data = await response.clone().json();
   if (!data.success) {
     message.warning(data.message)
   }

@@ -75,7 +75,8 @@ const TableList = forwardRef((props: TableListProps, ref) => {
    */
   const handleRemove = async (selectedRows: ObjAnyProps[]) => {
     const hide = message.loading('正在删除');
-    const id = selectedRows.map((row) => row.id)
+    const idArray = selectedRows.map((row) => row.id)
+    const id = idArray.length === 1 ? idArray[0] : idArray.join(',')
     if (!selectedRows) return true;
     try {
       const res = await deleteData({

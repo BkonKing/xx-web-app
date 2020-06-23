@@ -1,11 +1,11 @@
 export default [
   {
-    path: '/user',
+    path: '/login',
     component: '../layouts/UserLayout',
     routes: [
       {
         name: 'login',
-        path: '/user/login',
+        path: '/login',
         component: './user/login',
         exact: true
       },
@@ -38,19 +38,19 @@ export default [
               {
                 name: '权限菜单',
                 icon: 'table',
-                path: '/system/menu/list',
+                path: '/system/menu/getMenuList',
                 component: '@/pages/base/system/menu',
               },
               {
                 name: '权限角色',
                 icon: 'table',
-                path: '/system/role/list',
+                path: '/system/role/getRoleList',
                 component: '@/pages/base/system/role',
               },
               {
                 name: '管理员',
                 icon: 'table',
-                path: '/system/admin/list',
+                path: '/system/admin/getAdminList',
                 component: '@/pages/base/system/admin',
               },
             ]
@@ -63,13 +63,13 @@ export default [
               {
                 name: '区域字典',
                 icon: 'table',
-                path: '/project/areas/list',
+                path: '/project/areas/getAreasList',
                 component: '@/pages/base/project/areas',
               },
               {
                 name: '项目管理',
                 icon: 'table',
-                path: '/project/resions/list',
+                path: '/project/resions/getRegionsList',
                 component: '@/pages/base/project/regions',
               },
             ]
@@ -77,12 +77,13 @@ export default [
           {
             name: '用户管理',
             icon: 'table',
-            path: '/users',
+            path: '/user',
             routes: [
               {
                 name: '用户列表',
                 icon: 'table',
-                path: '/users/user-list',
+                exact: true,
+                path: '/user/user/getUserList',
                 component: '@/pages/base/userManage',
               }
             ]
@@ -95,25 +96,25 @@ export default [
               {
                 name: '极光推送',
                 icon: 'table',
-                path: '/basicset/setJpush',
+                path: '/basicset/setting/setJpush',
                 component: '@/pages/base/basicset/setJpush',
               },
               {
                 name: '微信支付',
                 icon: 'table',
-                path: '/basicset/setWxpay',
+                path: '/basicset/setting/setWxpay',
                 component: '@/pages/base/basicset/setWxpay',
               },
               {
                 name: '授权认证',
                 icon: 'table',
-                path: '/basicset/setAuthorized',
+                path: '/basicset/setting/setAuthorized',
                 component: '@/pages/base/basicset/setAuthorized',
               },
               {
                 name: '快递公司列表',
                 icon: 'table',
-                path: '/basicset/express-list',
+                path: '/basicset/express/getExpressList',
                 component: '@/pages/base/basicset/express',
               },
             ]

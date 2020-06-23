@@ -6,22 +6,22 @@ import { getWxpay } from './service';
 
 const FormItem = Form.Item;
 
-interface SetJpushProps {
+interface SetWxpayProps {
   submitting: boolean;
   dispatch: Dispatch<any>;
 }
 
-const SetJpush: FC<SetJpushProps> = (props) => {
+const SetWxpay: FC<SetWxpayProps> = (props) => {
   const { submitting } = props;
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState<boolean>(true);
-  const getJpushForm = () => {
+  const queryWxpay = () => {
     getWxpay().then(({data}) => {
       form.setFieldsValue(data)
     })
   }
   useEffect(() => {
-    getJpushForm()
+    queryWxpay()
   }, [])
   const formItemLayout = {
     labelCol: {
@@ -49,7 +49,7 @@ const SetJpush: FC<SetJpushProps> = (props) => {
   const onFinish = (values: { [key: string]: any }) => {
     const { dispatch } = props;
     dispatch({
-      type: 'basicsetAndsetJpush/submitRegularForm',
+      type: 'basicsetAndsetWxpay/submitRegularForm',
       payload: values,
     }).then(() => {
       setDisabled(true)
@@ -167,4 +167,4 @@ const SetJpush: FC<SetJpushProps> = (props) => {
 
 export default connect(({ loading }: { loading: { effects: { [key: string]: boolean } } }) => ({
   submitting: loading.effects['basicsetAndsetWxpay/submitRegularForm'],
-}))(SetJpush);
+}))(SetWxpay);

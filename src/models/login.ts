@@ -66,7 +66,7 @@ const Model: LoginModelType = {
         removeStore({name: 'access_token'})
         removeStore({name: 'refresh_token'})
         history.replace({
-          pathname: '/user/login'
+          pathname: '/login'
         });
       }
     },

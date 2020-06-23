@@ -1,49 +1,85 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import TableList from '@/components/TableList';
 import SimpleTree from '@/components/SimpleTree'
 import SimpleModal from '@/components/SimpleModal'
 import UploadImage from '@/components/UploadImage'
-import { message, Divider, Input } from 'antd'
+import { message, Divider, Input, Cascader } from 'antd'
 import { ProColumns } from '@ant-design/pro-table';
-import { isPhone } from '@/utils/validate'
+import { isPhone, longitudeValid, latitudeValid } from '@/utils/validate'
 
 import { getRegionsList, addRegions, updateRegions, deleteRegions, getRegionsMenu, updateRegionsMenu } from './service';
+import { getAreasList } from '../areas/service';
 
 const regionTableList: React.FC<{}> = () => {
   const parentRef = useRef()
   const [regionTreeModal, setRegionTreeModal] = useState<boolean>(false)
   const [treeData, setTreeData] = useState<[]>([])
   const [projectId, setProjectId] = useState<number>()
+  const [areaOption, setAreaOption] = useState<[]>([])
+  const transformAreas = (data: any) => {
+    return data.map((obj: any) => {
+      const keyData: any = {
+        value: obj.id,
+        label: obj.areas_name,
+        children: obj.children
+      }
+      if (keyData.children) {
+        keyData.children = transformAreas(keyData.children)
+      }
+      return keyData
+    })
+  }
+  useEffect(() => {
+    getAreasList().then(({ data }) => {
+      setAreaOption(transformAreas(data))
+    })
+  }, [])
+  const changeArea = (form: any, value: any) => {
+    const formData = form.getFieldsValue()
+    form.setFieldsValue(formData)
+    console.log(formData);
+  }
   const columns: ProColumns<{}>[] = [
     {
       title: '省',
       dataIndex: 'province',
-      rules: [
-        {
-          required: true,
-          message: '省为必填项',
-        },
-      ],
+      hideInForm: true,
+      // rules: [
+      //   {
+      //     required: true,
+      //     message: '省为必填项',
+      //   },
+      // ],
     },
     {
       title: '市',
       dataIndex: 'city',
-      rules: [
-        {
-          required: true,
-          message: '市为必填项',
-        },
-      ],
+      hideInForm: true,
+      // rules: [
+      //   {
+      //     required: true,
+      //     message: '市为必填项',
+      //   },
+      // ],
     },
     {
       title: '区',
       dataIndex: 'area',
-      rules: [
-        {
-          required: true,
-          message: '区为必填项',
-        },
-      ],
+      hideInForm: true,
+      // rules: [
+      //   {
+      //     required: true,
+      //     message: '区为必填项',
+      //   },
+      // ],
+    },
+    {
+      title: '省市县',
+      dataIndex: 'city',
+      hideInTable: true,
+      renderFormItem(_, {value, onChange}, form) {
+        return <Cascader options={areaOption} onChange={() => {changeArea(form, value)}} placeholder="选择省市县" />
+      }
     },
     {
       title: '小区名称',
@@ -87,13 +123,13 @@ const regionTableList: React.FC<{}> = () => {
       dataIndex: 'link_mobile',
       rules: [
         {
+          required: true,
+          message: '联系手机为必填项',
+        },
+        {
           validator: (_, value) =>
             isPhone(value) ? Promise.resolve()
               : Promise.reject('请输入正确的手机号或电话格式')
-        },
-        {
-          required: true,
-          message: '联系手机为必填项',
         },
       ],
     },
@@ -105,6 +141,11 @@ const regionTableList: React.FC<{}> = () => {
           required: true,
           message: '经度为必填项',
         },
+        {
+          validator: (_, value) =>
+          longitudeValid(value) ? Promise.resolve()
+              : Promise.reject('经度必须在-180~180之间')
+        },
       ],
     },
     {
@@ -114,6 +155,11 @@ const regionTableList: React.FC<{}> = () => {
         {
           required: true,
           message: '纬度为必填项',
+        },
+        {
+          validator: (_, value) =>
+          latitudeValid(value) ? Promise.resolve()
+              : Promise.reject('经度必须在-90~90之间')
         },
       ],
     },

@@ -25,3 +25,25 @@ export function isPhone(phone: string) {
   }
   return false
 }
+
+/**
+ * 判断经度，范围-180 ~ 180
+ */
+export function longitudeValid(value: string) {
+  const reg = /^[\-\+]?(0(\.\d{1,10})?|([1-9](\d)?)(\.\d{1,10})?|1[0-7]\d{1}(\.\d{1,10})?|180(\.0{1,10})?)$/
+  if (reg.test(value)) {
+    return true
+  }
+  return false
+}
+
+/**
+ * 判断纬度，范围-90 ~ 90
+ */
+export function latitudeValid(value: string) {
+  const reg = /^[\-\+]?((0|([1-8]\d?))(\.\d{1,10})?|90(\.0{1,10})?)$/
+  if (reg.test(value)) {
+    return true
+  }
+  return false
+}

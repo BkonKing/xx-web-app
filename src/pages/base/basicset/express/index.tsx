@@ -78,7 +78,6 @@ const adminTableList: React.FC<{}> = () => {
       modalTitle="快递公司"
       columns={columns}
       getData={getExpressList}
-      selectabled
       pagination
       isAction
       isActionBar

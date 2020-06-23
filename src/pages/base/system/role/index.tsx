@@ -10,6 +10,7 @@ import { getRoleList, addRole, deleteRole, updateRole, getRoleMenu, updateRoleMe
 
 const adminTableList: React.FC<{}> = () => {
   const parentRef = useRef()
+  const tableRef = useRef()
   const [roleTreeModal, setRoleTreeModal] = useState<boolean>(false)
   const [treeData, setTreeData] = useState<[]>([])
   const [role_id, setRole_id] = useState<number>()
@@ -39,14 +40,21 @@ const adminTableList: React.FC<{}> = () => {
       hideInTable: true,
       // hideInForm: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value}/>;
+        return <Input type='hidden' value={value} />;
       },
     },
+    {
+      dataIndex: 'parent_id',
+      hideInTable: true,
+      renderFormItem: (_, { value }) => {
+        return <Input type='hidden' value={value}/>;
+      },
+    }
   ]
   const showRoleTree = (id: number) => {
     getRoleMenu({
       roleId: id
-    }).then(({data}) => {
+    }).then(({ data }) => {
       setTreeData(data.records);
       setRoleTreeModal(true);
       setRole_id(id);
@@ -65,6 +73,7 @@ const adminTableList: React.FC<{}> = () => {
   return (
     <>
       <TableList
+        ref={tableRef}
         headerTitle="权限角色列表"
         modalTitle="权限角色"
         columns={columns}
@@ -74,14 +83,23 @@ const adminTableList: React.FC<{}> = () => {
         addData={addRole}
         updateData={updateRole}
         deleteData={deleteRole}
-        actionRender={(record:any) => {
+        actionRender={(record: any) => {
           return <><a
-          onClick={() => {
-            showRoleTree(record.id)
-          }}
-        >
-          设置权限菜单
-        </a><Divider type="vertical" /></>
+            onClick={() => {
+              showRoleTree(record.id)
+            }}>
+            设置权限菜单
+            </a><Divider type="vertical" />
+            <a
+              onClick={() => {
+                const newRecord = {
+                  parent_id: record.id
+                }
+                tableRef.current.showAddModal(newRecord)
+              }}
+            >
+              添加
+            </a><Divider type="vertical" /></>
         }}
       />
       <SimpleModal

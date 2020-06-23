@@ -27,7 +27,7 @@ const noMatch = (
     subTitle="对不起，你没有权限访问当前页面。"
     extra={
       <Button type="primary">
-        <Link to="/user/login">登录</Link>
+        <Link to="/login">登录</Link>
       </Button>
     }
   />
@@ -50,27 +50,8 @@ export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
 
 const defaultFooterDom = (
   <DefaultFooter
-    copyright={`${new Date().getFullYear()} 蚂蚁金服体验技术部出品`}
-    links={[
-      {
-        key: 'Ant Design Pro',
-        title: 'Ant Design Pro',
-        href: 'https://pro.ant.design',
-        blankTarget: true,
-      },
-      {
-        key: 'github',
-        title: <GithubOutlined />,
-        href: 'https://github.com/ant-design/ant-design-pro',
-        blankTarget: true,
-      },
-      {
-        key: 'Ant Design',
-        title: 'Ant Design',
-        href: 'https://ant.design',
-        blankTarget: true,
-      },
-    ]}
+    copyright={`${new Date().getFullYear()} 天福集团科技部出品`}
+    links={[]}
   />
 );
 /**
@@ -101,9 +82,9 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
    */
 
   useEffect(() => {
-    // queryMenu().then(({ data }) => {
-    //   setMenuData(data.records || []);
-    // })
+    queryMenu().then(({ data }) => {
+      setMenuData(data.records || []);
+    })
   }, []);
 
   /**
@@ -155,8 +136,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           );
       }}
       footerRender={() => defaultFooterDom}
-      // menuDataRender={() => menuData}
-      menuDataRender={menuDataRender}
+      menuDataRender={() => menuData}
+      // menuDataRender={menuDataRender}
       rightContentRender={() => <RightContent />}
       {...props}
       {...settings}

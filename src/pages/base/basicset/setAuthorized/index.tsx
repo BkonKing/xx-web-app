@@ -6,22 +6,22 @@ import { getAuthorized } from './service';
 
 const FormItem = Form.Item;
 
-interface SetJpushProps {
+interface SetAuthorizedProps {
   submitting: boolean;
   dispatch: Dispatch<any>;
 }
 
-const SetJpush: FC<SetJpushProps> = (props) => {
+const SetAuthorized: FC<SetAuthorizedProps> = (props) => {
   const { submitting } = props;
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState<boolean>(true);
-  const getJpushForm = () => {
+  const queryAuthorized = () => {
     getAuthorized().then(({data}) => {
       form.setFieldsValue(data)
     })
   }
   useEffect(() => {
-    getJpushForm()
+    queryAuthorized()
   }, [])
   const formItemLayout = {
     labelCol: {
@@ -49,7 +49,7 @@ const SetJpush: FC<SetJpushProps> = (props) => {
   const onFinish = (values: { [key: string]: any }) => {
     const { dispatch } = props;
     dispatch({
-      type: 'basicsetAndsetJpush/submitRegularForm',
+      type: 'basicsetAndsetAuthorized/submitRegularForm',
       payload: values,
     }).then(() => {
       setDisabled(true)
@@ -115,4 +115,4 @@ const SetJpush: FC<SetJpushProps> = (props) => {
 
 export default connect(({ loading }: { loading: { effects: { [key: string]: boolean } } }) => ({
   submitting: loading.effects['basicsetAndsetAuthorized/submitRegularForm'],
-}))(SetJpush);
+}))(SetAuthorized);
