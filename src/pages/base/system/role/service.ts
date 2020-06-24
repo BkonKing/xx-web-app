@@ -4,10 +4,10 @@ export async function getRoleList() {
   return request('/system/role/getRoleList');
 }
 
-export async function deleteRole(data: { id: number | number[]}) {
+export async function deleteRole(data: { id: number | number[] }) {
   return request('/system/role/deleteRole', {
     method: 'POST',
-    data
+    data,
   });
 }
 
@@ -25,7 +25,7 @@ export async function updateRole(params: any) {
   });
 }
 
-export async function getRoleMenu(params: {roleId: number}) {
+export async function getRoleMenu(params: { roleId: number }) {
   return request('/system/role/getRoleMenu', {
     method: 'GET',
     params,

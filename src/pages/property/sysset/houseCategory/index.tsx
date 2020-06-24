@@ -1,8 +1,13 @@
-import React from 'react'
-import TableList from '@/components/TableList'
-import { Input } from 'antd'
+import React from 'react';
+import TableList from '@/components/TableList';
+import { Input } from 'antd';
 import { ProColumns } from '@ant-design/pro-table';
-import { getHouseCategoryList, addHouseCategory, updateHouseCategory, deleteHouseCategory } from './service';
+import {
+  getHouseCategoryList,
+  addHouseCategory,
+  updateHouseCategory,
+  deleteHouseCategory,
+} from './service';
 
 const areasTableList: React.FC<{}> = () => {
   const columns: ProColumns<{}>[] = [
@@ -30,8 +35,8 @@ const areasTableList: React.FC<{}> = () => {
       title: '是否启用',
       dataIndex: 'is_enabled',
       valueEnum: {
-        0: {text: '否'},
-        1: {text: '是'},
+        0: { text: '否' },
+        1: { text: '是' },
       },
       rules: [
         {
@@ -44,17 +49,17 @@ const areasTableList: React.FC<{}> = () => {
       dataIndex: 'id',
       hideInTable: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value}/>;
+        return <Input type="hidden" value={value} />;
       },
     },
     {
       dataIndex: 'parent_id',
       hideInTable: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value}/>;
+        return <Input type="hidden" value={value} />;
       },
-    }
-  ]
+    },
+  ];
   return (
     <TableList
       headerTitle="房产类别列表"
@@ -67,7 +72,7 @@ const areasTableList: React.FC<{}> = () => {
       updateData={updateHouseCategory}
       deleteData={deleteHouseCategory}
     />
-  )
-}
+  );
+};
 
-export default areasTableList
+export default areasTableList;

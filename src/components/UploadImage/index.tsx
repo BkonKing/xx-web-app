@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -23,7 +23,7 @@ function beforeUpload(file: File) {
 interface UploadProps {
   action: string;
   value: string;
-  onChange: ((value: any) => void) | undefined
+  onChange?: ((value: any) => void);
 }
 
 interface UploadState {
@@ -32,13 +32,12 @@ interface UploadState {
 }
 
 class UploadImage extends React.Component<UploadProps, UploadState> {
-
   constructor(props: UploadProps) {
-    super(props)
+    super(props);
     this.state = {
       imageUrl: this.props.value,
       loading: false,
-    }
+    };
   }
 
   handleChange = (info: any) => {
@@ -49,11 +48,13 @@ class UploadImage extends React.Component<UploadProps, UploadState> {
     if (info.file.status === 'done') {
       // 在现实世界中从响应中获取此url.
       getBase64(info.file.originFileObj, (imageUrl: string) => {
-        this.props.onChange(imageUrl);
+        const { onChange } = this.props
+        // eslint-disable-next-line no-unused-expressions
+        onChange && onChange(imageUrl);
         this.setState({
           imageUrl,
           loading: false,
-        })
+        });
       });
     }
   };
@@ -76,10 +77,14 @@ class UploadImage extends React.Component<UploadProps, UploadState> {
         beforeUpload={beforeUpload}
         onChange={this.handleChange}
       >
-        {this.state.imageUrl ? <img src={this.state.imageUrl} alt="图片" style={{ width: '100%' }} /> : uploadButton}
+        {this.state.imageUrl ? (
+          <img src={this.state.imageUrl} alt="图片" style={{ width: '100%' }} />
+        ) : (
+          uploadButton
+        )}
       </Upload>
     );
   }
 }
 
-export default UploadImage
+export default UploadImage;

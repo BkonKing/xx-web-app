@@ -16,7 +16,7 @@ import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
 import { getAuthorityFromRouter } from '@/utils/utils';
-import { queryMenu } from '@/services/user'
+import { queryMenu } from '@/services/user';
 import logo from '../assets/logo.svg';
 
 const noMatch = (
@@ -48,10 +48,7 @@ export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
 };
 
 const defaultFooterDom = (
-  <DefaultFooter
-    copyright={`${new Date().getFullYear()} 天福集团科技部出品`}
-    links={[]}
-  />
+  <DefaultFooter copyright={`${new Date().getFullYear()} 天福集团科技部出品`} links={[]} />
 );
 /**
  * 使用Authorized检查所有菜单项
@@ -81,11 +78,13 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
    */
 
   useEffect(() => {
-    queryMenu().then(({ data }) => {
-      setMenuData(data.records || []);
-    }).catch((err) => {
-      console.error(err)
-    })
+    queryMenu()
+      .then(({ data }) => {
+        setMenuData(data.records || []);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, []);
 
   /**
@@ -133,8 +132,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         return first ? (
           <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
         ) : (
-            <span>{route.breadcrumbName}</span>
-          );
+          <span>{route.breadcrumbName}</span>
+        );
       }}
       footerRender={() => defaultFooterDom}
       // menuDataRender={() => menuData}

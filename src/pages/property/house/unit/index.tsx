@@ -1,6 +1,6 @@
-import React from 'react'
-import TableList from '@/components/TableList'
-import { Input } from 'antd'
+import React from 'react';
+import TableList from '@/components/TableList';
+import { Input } from 'antd';
 import { ProColumns } from '@ant-design/pro-table';
 import { getUnitList, addUnit, updateUnit, deleteUnit } from './service';
 
@@ -31,10 +31,10 @@ const areasTableList: React.FC<{}> = () => {
       hideInTable: true,
       dataIndex: 'open_door',
       valueEnum: {
-        0: {text: '二维码'},
-        1: {text: '人脸'},
-        2: {text: '远程开门'},
-      }
+        0: { text: '二维码' },
+        1: { text: '人脸' },
+        2: { text: '远程开门' },
+      },
     },
     {
       title: '门禁设备ID',
@@ -50,8 +50,8 @@ const areasTableList: React.FC<{}> = () => {
       title: '是否启用',
       dataIndex: 'is_enabled',
       valueEnum: {
-        0: {text: '否'},
-        1: {text: '是'},
+        0: { text: '否' },
+        1: { text: '是' },
       },
       rules: [
         {
@@ -64,10 +64,10 @@ const areasTableList: React.FC<{}> = () => {
       dataIndex: 'id',
       hideInTable: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value}/>;
+        return <Input type="hidden" value={value} />;
       },
     },
-  ]
+  ];
   return (
     <TableList
       headerTitle="楼宇单元列表"
@@ -80,7 +80,7 @@ const areasTableList: React.FC<{}> = () => {
       updateData={updateUnit}
       deleteData={deleteUnit}
     />
-  )
-}
+  );
+};
 
-export default areasTableList
+export default areasTableList;

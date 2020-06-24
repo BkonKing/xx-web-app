@@ -7,14 +7,23 @@ interface SimpleModalProps {
   onCancel: () => void;
   onOk?: () => void;
   title: string;
-  footer?: string|React.ReactNode|null;
-  width?: string|number;
-  okText?: string|React.ReactNode;
-  cancelText?: string|React.ReactNode;
+  footer?: string | React.ReactNode | null;
+  width?: string | number;
+  okText?: string | React.ReactNode;
+  cancelText?: string | React.ReactNode;
 }
 
 const SimpleModal: React.FC<SimpleModalProps> = (props) => {
-  const { modalVisible, onOk, onCancel, title, footer, width = 700, okText = '保存', cancelText = '取消' } = props;
+  const {
+    modalVisible,
+    onOk,
+    onCancel,
+    title,
+    footer,
+    width = 700,
+    okText = '保存',
+    cancelText = '取消',
+  } = props;
 
   return (
     <Modal

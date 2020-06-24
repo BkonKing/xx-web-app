@@ -7,10 +7,10 @@ import { FormInstance } from 'antd/lib/form';
 
 import SimpleModal from '../SimpleModal';
 
-const { confirm } = Modal
+const { confirm } = Modal;
 
 interface TableListProps {
-  headerTitle: string
+  headerTitle: string;
   modalTitle: string;
   columns: ProColumns<any>[];
   getData: (params: any) => Promise<any>;
@@ -24,13 +24,31 @@ interface TableListProps {
   actionRender?: any;
   pagination?: any;
   onSubmit?: Function;
-  onAmend? : Function;
+  onAmend?: Function;
 }
 
-interface ObjAnyProps { [propname: string]: any }
+interface ObjAnyProps {
+  [propname: string]: any;
+}
 
 const TableList = forwardRef((props: TableListProps, ref) => {
-  const { headerTitle, columns, getData, modalTitle, selectabled, addData, updateData, deleteData, isAction, isActionBar, searchable = false, actionRender, pagination = false, onSubmit, onAmend } = props
+  const {
+    headerTitle,
+    columns,
+    getData,
+    modalTitle,
+    selectabled,
+    addData,
+    updateData,
+    deleteData,
+    isAction,
+    isActionBar,
+    searchable = false,
+    actionRender,
+    pagination = false,
+    onSubmit,
+    onAmend,
+  } = props;
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
@@ -82,8 +100,8 @@ const TableList = forwardRef((props: TableListProps, ref) => {
    */
   const handleRemove = async (selectedRows: ObjAnyProps[]) => {
     const hide = message.loading('正在删除');
-    const idArray = selectedRows.map((row) => row.id)
-    const id = idArray.length === 1 ? idArray[0] : idArray.join(',')
+    const idArray = selectedRows.map((row) => row.id);
+    const id = idArray.length === 1 ? idArray[0] : idArray.join(',');
     if (!selectedRows) return true;
     try {
       const res = await deleteData({
@@ -113,15 +131,15 @@ const TableList = forwardRef((props: TableListProps, ref) => {
         cancelText: '取消',
         content: '删除后将无法还原，请谨慎处理',
         async onOk() {
-          await handleRemove(selectedRows)
-          resolve()
+          await handleRemove(selectedRows);
+          resolve();
         },
         onCancel() {
-          reject()
+          reject();
         },
       });
-    })
-  }
+    });
+  };
 
   /**
    * 给表格数据添加key
@@ -129,48 +147,48 @@ const TableList = forwardRef((props: TableListProps, ref) => {
    */
   const addKey = (data: any) => {
     return data.map((col: ProColumns<{}>) => {
-      const keyData: any = col
-      keyData.key = col.id
+      const keyData: any = col;
+      keyData.key = col.id;
       if (keyData.children) {
-        keyData.children = addKey(keyData.children)
+        keyData.children = addKey(keyData.children);
       }
-      return keyData
-    })
-  }
+      return keyData;
+    });
+  };
 
   /**
    * 获取表格数据，并格式化表格数据格式
    * @param params 表格搜索翻页等参数
    */
   const requestData = async (params: ObjAnyProps) => {
-    const { current: pageNum, ...newParams } = params
+    const { current: pageNum, ...newParams } = params;
     if (pagination) {
-      newParams.pageNum = pageNum
+      newParams.pageNum = pageNum;
     }
     return getData(newParams).then(({ data }: ObjAnyProps) => {
       if (pagination) {
-        const { records, current, size, total } = data
-        const columnData = addKey(records)
+        const { records, current, size, total } = data;
+        const columnData = addKey(records);
         return {
           current,
           pageSize: size,
           success: true,
           data: columnData,
-          total
-        }
+          total,
+        };
       }
-      const columnData = addKey(data)
+      const columnData = addKey(data);
       return {
         success: true,
         data: columnData,
-      }
-    })
-  }
+      };
+    });
+  };
 
   const showEditModal = (item: Partial<ObjAnyProps>) => {
-    let data = item
+    let data = item;
     if (onAmend) {
-      data = onAmend(item)
+      data = onAmend(item);
     }
     handleModalVisible(true);
     setTimeout(() => {
@@ -182,9 +200,9 @@ const TableList = forwardRef((props: TableListProps, ref) => {
 
   useImperativeHandle(ref, () => ({
     showAddModal: (item: any) => {
-      showEditModal(item)
-    }
-  }))
+      showEditModal(item);
+    },
+  }));
 
   // 判断是否有操作栏
   if (isActionBar) {
@@ -203,47 +221,60 @@ const TableList = forwardRef((props: TableListProps, ref) => {
             修改
           </a>
           <Divider type="vertical" />
-          <a onClick={() => {
-            removeConfirm([record]).then(() => {
-              action.reload();
-            }).catch(() => { });
-          }}>删除</a>
+          <a
+            onClick={() => {
+              removeConfirm([record])
+                .then(() => {
+                  action.reload();
+                })
+                .catch(() => {});
+            }}
+          >
+            删除
+          </a>
         </>
       ),
-    })
+    });
   }
 
-  let forms
+  let forms;
 
   // 是否显示表单
   if (isAction || isActionBar) {
-    forms = <SimpleModal onCancel={() => handleModalVisible(false)} modalVisible={createModalVisible} title={modalTitle} footer={null}>
-      <ProTable<ObjAnyProps, ObjAnyProps>
-        formRef={formRef}
-        onSubmit={async (value) => {
-          if (onSubmit) {
-            // eslint-disable-next-line no-param-reassign
-            value = onSubmit(value)
-          }
-          let success = false
-          if (value.id) {
-            success = await handleUpdate(value);
-          } else {
-            success = await handleAdd(value);
-          }
-          if (success) {
-            handleModalVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
+    forms = (
+      <SimpleModal
+        onCancel={() => handleModalVisible(false)}
+        modalVisible={createModalVisible}
+        title={modalTitle}
+        footer={null}
+      >
+        <ProTable<ObjAnyProps, ObjAnyProps>
+          formRef={formRef}
+          onSubmit={async (value) => {
+            if (onSubmit) {
+              // eslint-disable-next-line no-param-reassign
+              value = onSubmit(value);
             }
-          }
-        }}
-        rowKey="key"
-        type="form"
-        columns={columns}
-        rowSelection={{}}
-      />
-    </SimpleModal>
+            let success = false;
+            if (value.id) {
+              success = await handleUpdate(value);
+            } else {
+              success = await handleAdd(value);
+            }
+            if (success) {
+              handleModalVisible(false);
+              if (actionRef.current) {
+                actionRef.current.reload();
+              }
+            }
+          }}
+          rowKey="key"
+          type="form"
+          columns={columns}
+          rowSelection={{}}
+        />
+      </SimpleModal>
+    );
   }
 
   return (
@@ -257,16 +288,18 @@ const TableList = forwardRef((props: TableListProps, ref) => {
             return [
               <Button type="primary" onClick={() => handleModalVisible(true)}>
                 <PlusOutlined /> 新建
-                </Button>,
+              </Button>,
               selectedRows && selectedRows.length > 0 && (
                 <Dropdown
                   overlay={
                     <Menu
                       onClick={(e) => {
                         if (e.key === 'remove') {
-                          removeConfirm(selectedRows).then(() => {
-                            action.reload();
-                          }).catch(() => { });
+                          removeConfirm(selectedRows)
+                            .then(() => {
+                              action.reload();
+                            })
+                            .catch(() => {});
                         }
                       }}
                       selectedKeys={[]}
@@ -280,11 +313,11 @@ const TableList = forwardRef((props: TableListProps, ref) => {
                   </Button>
                 </Dropdown>
               ),
-            ]
+            ];
           }
-          return []
+          return [];
         }}
-        pagination={ pagination }
+        pagination={pagination}
         search={searchable}
         request={(params) => requestData(params)}
         columns={columns}

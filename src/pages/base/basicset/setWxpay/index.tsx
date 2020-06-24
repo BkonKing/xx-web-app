@@ -16,13 +16,13 @@ const SetWxpay: FC<SetWxpayProps> = (props) => {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState<boolean>(true);
   const queryWxpay = () => {
-    getWxpay().then(({data}) => {
-      form.setFieldsValue(data)
-    })
-  }
+    getWxpay().then(({ data }) => {
+      form.setFieldsValue(data);
+    });
+  };
   useEffect(() => {
-    queryWxpay()
-  }, [])
+    queryWxpay();
+  }, []);
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -43,8 +43,8 @@ const SetWxpay: FC<SetWxpayProps> = (props) => {
   };
 
   const toEdit = () => {
-    setDisabled(false)
-  }
+    setDisabled(false);
+  };
 
   const onFinish = (values: { [key: string]: any }) => {
     const { dispatch } = props;
@@ -52,7 +52,7 @@ const SetWxpay: FC<SetWxpayProps> = (props) => {
       type: 'basicsetAndsetWxpay/submitRegularForm',
       payload: values,
     }).then(() => {
-      setDisabled(true)
+      setDisabled(true);
     });
   };
 
@@ -80,7 +80,7 @@ const SetWxpay: FC<SetWxpayProps> = (props) => {
             rules={[
               {
                 required: true,
-                message: "请输入",
+                message: '请输入',
               },
             ]}
           >
@@ -93,7 +93,7 @@ const SetWxpay: FC<SetWxpayProps> = (props) => {
             rules={[
               {
                 required: true,
-                message: "请输入",
+                message: '请输入',
               },
             ]}
           >
@@ -106,7 +106,7 @@ const SetWxpay: FC<SetWxpayProps> = (props) => {
             rules={[
               {
                 required: true,
-                message: "请输入",
+                message: '请输入',
               },
             ]}
           >
@@ -119,7 +119,7 @@ const SetWxpay: FC<SetWxpayProps> = (props) => {
             rules={[
               {
                 required: true,
-                message: "请输入",
+                message: '请输入',
               },
             ]}
           >
@@ -132,7 +132,7 @@ const SetWxpay: FC<SetWxpayProps> = (props) => {
             rules={[
               {
                 required: true,
-                message: "请输入",
+                message: '请输入',
               },
             ]}
           >
@@ -145,7 +145,7 @@ const SetWxpay: FC<SetWxpayProps> = (props) => {
             rules={[
               {
                 required: true,
-                message: "请输入",
+                message: '请输入',
               },
             ]}
           >

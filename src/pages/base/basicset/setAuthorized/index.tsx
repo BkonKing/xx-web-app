@@ -16,13 +16,13 @@ const SetAuthorized: FC<SetAuthorizedProps> = (props) => {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState<boolean>(true);
   const queryAuthorized = () => {
-    getAuthorized().then(({data}) => {
-      form.setFieldsValue(data)
-    })
-  }
+    getAuthorized().then(({ data }) => {
+      form.setFieldsValue(data);
+    });
+  };
   useEffect(() => {
-    queryAuthorized()
-  }, [])
+    queryAuthorized();
+  }, []);
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -43,8 +43,8 @@ const SetAuthorized: FC<SetAuthorizedProps> = (props) => {
   };
 
   const toEdit = () => {
-    setDisabled(false)
-  }
+    setDisabled(false);
+  };
 
   const onFinish = (values: { [key: string]: any }) => {
     const { dispatch } = props;
@@ -52,7 +52,7 @@ const SetAuthorized: FC<SetAuthorizedProps> = (props) => {
       type: 'basicsetAndsetAuthorized/submitRegularForm',
       payload: values,
     }).then(() => {
-      setDisabled(true)
+      setDisabled(true);
     });
   };
 
@@ -80,7 +80,7 @@ const SetAuthorized: FC<SetAuthorizedProps> = (props) => {
             rules={[
               {
                 required: true,
-                message: "请输入",
+                message: '请输入',
               },
             ]}
           >
@@ -93,7 +93,7 @@ const SetAuthorized: FC<SetAuthorizedProps> = (props) => {
             rules={[
               {
                 required: true,
-                message: "请输入",
+                message: '请输入',
               },
             ]}
           >

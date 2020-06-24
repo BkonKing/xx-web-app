@@ -9,6 +9,6 @@ export async function getWxpay(params?: any) {
 export async function setWxpay(params: any) {
   return request('/basicset/setting/setWxpay', {
     method: 'POST',
-    data: params
+    data: params,
   });
 }

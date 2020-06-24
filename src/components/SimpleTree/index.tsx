@@ -3,43 +3,43 @@ import { Tree } from 'antd';
 
 // const { TreeNode } = Tree;
 
-const RoleTree = forwardRef((props: {data: []}, ref) => {
-  const { data } = props
-  const [checkedKeys, setCheckey] = useState<string[]>([])
+const RoleTree = forwardRef((props: { data: [] }, ref) => {
+  const { data } = props;
+  const [checkedKeys, setCheckey] = useState<string[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
-  const lastExpandedKeys:string[] = []
+  const lastExpandedKeys: string[] = [];
   const formatData = (forData: any[]) => {
-    const lastData:any[] = []
-    forData.forEach((obj:any, index: number) => {
+    const lastData: any[] = [];
+    forData.forEach((obj: any, index: number) => {
       lastData[index] = {
         key: obj.id,
         title: obj.menu_text,
-        icon: obj.icon
-      }
+        icon: obj.icon,
+      };
       if (obj.state.opened) {
-        lastExpandedKeys.push(obj.id)
+        lastExpandedKeys.push(obj.id);
       }
       if (obj.children) {
-        lastData[index].children = formatData(obj.children)
+        lastData[index].children = formatData(obj.children);
       }
-      return obj
-    })
-    return lastData
-  }
-  const treeData = formatData(data)
+      return obj;
+    });
+    return lastData;
+  };
+  const treeData = formatData(data);
   const [expandedKeys, setExpandedKeys] = useState<string[]>(lastExpandedKeys);
 
   useImperativeHandle(ref, () => ({
-    getData: () => checkedKeys
-  }))
+    getData: () => checkedKeys,
+  }));
 
-  const onExpand = (expandedKeys: any) => {
-    setExpandedKeys(expandedKeys);
+  const onExpand = (expandedKeyData: any) => {
+    setExpandedKeys(expandedKeyData);
     setAutoExpandParent(false);
-  }
+  };
 
-  const onCheck = (checkedKeys: any) => {
-    setCheckey(checkedKeys)
+  const onCheck = (checkedKeyData: any) => {
+    setCheckey(checkedKeyData);
   };
 
   return (
@@ -55,4 +55,4 @@ const RoleTree = forwardRef((props: {data: []}, ref) => {
   );
 });
 
-export default RoleTree
+export default RoleTree;

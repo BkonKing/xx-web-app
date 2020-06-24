@@ -1,14 +1,14 @@
-import React, { useRef } from 'react'
-import TableList from '@/components/TableList'
-import UploadImage from '@/components/UploadImage'
+import React, { useRef } from 'react';
+import TableList from '@/components/TableList';
+import UploadImage from '@/components/UploadImage';
 import { ProColumns } from '@ant-design/pro-table';
-import { Divider, Input } from 'antd'
+import { Divider, Input } from 'antd';
 import PreviewImage from '@/components/PreviewImage';
-import { menuItem } from './data'
+import { menuItem } from './data';
 import { getMenuList, addMenu, deleteMenu, updateMenu } from './service';
 
 const adminTableList: React.FC<{}> = () => {
-  const parentRef = useRef()
+  const parentRef = useRef();
   const columns: ProColumns<menuItem>[] = [
     {
       title: '菜单名称',
@@ -24,12 +24,17 @@ const adminTableList: React.FC<{}> = () => {
       title: '菜单图标',
       dataIndex: 'icon',
       render: (_) => {
-        return <PreviewImage src={String(_)} alt="菜单图标" />
+        return <PreviewImage src={String(_)} alt="菜单图标" />;
       },
       renderFormItem: (item, { value, onChange }) => {
-        return <UploadImage action="https://www.mocky.io/v2/5cc8019d300000980a055e76" value={value}
-          onChange={onChange} />
-      }
+        return (
+          <UploadImage
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            value={value}
+            onChange={onChange}
+          />
+        );
+      },
     },
     {
       title: '模块',
@@ -52,7 +57,7 @@ const adminTableList: React.FC<{}> = () => {
       dataIndex: 'display',
       valueEnum: {
         0: { text: '否' },
-        1: { text: '是' }
+        1: { text: '是' },
       },
       rules: [
         {
@@ -65,16 +70,16 @@ const adminTableList: React.FC<{}> = () => {
       dataIndex: 'id',
       hideInTable: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value} />;
+        return <Input type="hidden" value={value} />;
       },
     },
     {
       dataIndex: 'parent_id',
       hideInTable: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value} />;
+        return <Input type="hidden" value={value} />;
       },
-    }
+    },
   ];
   return (
     <TableList
@@ -86,22 +91,27 @@ const adminTableList: React.FC<{}> = () => {
       isAction
       isActionBar
       actionRender={(record: any) => {
-        return <><a
-          onClick={() => {
-            const newRecord = {
-              parent_id: record.id
-            }
-            parentRef.current.showAddModal(newRecord)
-          }}
-        >
-          添加
-      </a><Divider type="vertical" /></>
+        return (
+          <>
+            <a
+              onClick={() => {
+                const newRecord = {
+                  parent_id: record.id,
+                };
+                parentRef.current.showAddModal(newRecord);
+              }}
+            >
+              添加
+            </a>
+            <Divider type="vertical" />
+          </>
+        );
       }}
       addData={addMenu}
       updateData={updateMenu}
       deleteData={deleteMenu}
     />
-  )
-}
+  );
+};
 
-export default adminTableList
+export default adminTableList;

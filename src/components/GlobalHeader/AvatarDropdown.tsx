@@ -1,4 +1,4 @@
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined, SettingOutlined } from '@ant-design/icons';
 import { Avatar, Menu, Spin } from 'antd';
 import { ClickParam } from 'antd/es/menu';
 import React from 'react';
@@ -59,7 +59,12 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
     return currentUser && currentUser.id ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
-          <Avatar size="small" className={styles.avatar} src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png" alt="avatar" />
+          <Avatar
+            size="small"
+            className={styles.avatar}
+            src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"
+            alt="avatar"
+          />
           <span className={styles.name}>{currentUser.realname}</span>
         </span>
       </HeaderDropdown>

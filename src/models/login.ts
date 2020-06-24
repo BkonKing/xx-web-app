@@ -1,9 +1,9 @@
 import { history, Reducer, Effect } from 'umi';
-import { message } from 'antd'
+import { message } from 'antd';
 
 import { login, outlogin } from '@/services/user';
 import { getPageQuery } from '@/utils/utils';
-import { setStore, getStore, removeStore } from '@/utils/store'
+import { setStore, getStore, removeStore } from '@/utils/store';
 
 export interface StateType {
   userInfo?: any;
@@ -28,7 +28,7 @@ const Model: LoginModelType = {
   namespace: 'login',
 
   state: {
-    userInfo: getStore({name: 'userInfo'}) || {},
+    userInfo: getStore({ name: 'userInfo' }) || {},
   },
 
   effects: {
@@ -62,11 +62,11 @@ const Model: LoginModelType = {
     *logout(_, { call }) {
       const response = yield call(outlogin);
       if (response.success) {
-        message.success('退出成功！')
-        removeStore({name: 'access_token'})
-        removeStore({name: 'refresh_token'})
+        message.success('退出成功！');
+        removeStore({ name: 'access_token' });
+        removeStore({ name: 'refresh_token' });
         history.replace({
-          pathname: '/login'
+          pathname: '/login',
         });
       }
     },
@@ -76,19 +76,19 @@ const Model: LoginModelType = {
     changeLoginStatus(state, { payload }) {
       setStore({
         name: 'access_token',
-        content: payload.access_token
+        content: payload.access_token,
       });
       setStore({
         name: 'refresh_token',
-        content: payload.refresh_token
+        content: payload.refresh_token,
       });
       setStore({
         name: 'userInfo',
-        content: payload
+        content: payload,
       });
       return {
         ...state,
-        userInfo: payload
+        userInfo: payload,
       };
     },
   },

@@ -5,8 +5,8 @@ interface tableParams {
   pageSize?: number;
 }
 
-export async function getUserList(params:tableParams) {
+export async function getUserList(params: tableParams) {
   return request('/user/user/getUserList', {
-    params
-  })
+    params,
+  });
 }

@@ -1,9 +1,9 @@
-import React from 'react'
-import TableList from '@/components/TableList'
-import { Input } from 'antd'
+import React from 'react';
+import TableList from '@/components/TableList';
+import { Input } from 'antd';
 import { ProColumns } from '@ant-design/pro-table';
 
-import { getExpressList, addExpress, updateExpress, deleteExpress } from './service'
+import { getExpressList, addExpress, updateExpress, deleteExpress } from './service';
 
 const adminTableList: React.FC<{}> = () => {
   const columns: ProColumns<{}>[] = [
@@ -35,9 +35,9 @@ const adminTableList: React.FC<{}> = () => {
       title: '数据接收',
       dataIndex: 'is_api',
       valueEnum: {
-        0: {text: '否'},
-        1: {text: '是'},
-      }
+        0: { text: '否' },
+        1: { text: '是' },
+      },
     },
     {
       title: '排序',
@@ -54,8 +54,8 @@ const adminTableList: React.FC<{}> = () => {
       title: '是否启用',
       dataIndex: 'is_enabled',
       valueEnum: {
-        0: {text: '否'},
-        1: {text: '是'},
+        0: { text: '否' },
+        1: { text: '是' },
       },
       rules: [
         {
@@ -68,10 +68,10 @@ const adminTableList: React.FC<{}> = () => {
       dataIndex: 'id',
       hideInTable: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value}/>;
+        return <Input type="hidden" value={value} />;
       },
     },
-  ]
+  ];
   return (
     <TableList
       headerTitle="快递公司列表"
@@ -85,7 +85,7 @@ const adminTableList: React.FC<{}> = () => {
       updateData={updateExpress}
       deleteData={deleteExpress}
     />
-  )
-}
+  );
+};
 
-export default adminTableList
+export default adminTableList;

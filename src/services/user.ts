@@ -12,16 +12,16 @@ export async function login(params: LoginParamsType) {
   });
 }
 
-export async function getToken(params: {headers: any}) {
+export async function getToken(params: { headers: any }) {
   return request('/authorization/token/getToken', {
     method: 'POST',
-    ...params
+    ...params,
   });
 }
 
 export async function outlogin() {
   return request('/system/slognin/outlogin', {
-    method: 'POST'
+    method: 'POST',
   });
 }
 

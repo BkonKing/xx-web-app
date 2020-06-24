@@ -9,6 +9,6 @@ export async function getJpush(params?: any) {
 export async function setJpush(params: any) {
   return request('/basicset/setting/setJpush', {
     method: 'POST',
-    data: params
+    data: params,
   });
 }

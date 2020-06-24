@@ -43,11 +43,7 @@ const Login: React.FC<LoginProps> = (props) => {
   return (
     <div className={styles.main}>
       <LoginForm activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
-        <>
-          {status === 'error' && !submitting && (
-            <LoginMessage content="账户或密码错误" />
-          )}
-        </>
+        <>{status === 'error' && !submitting && <LoginMessage content="账户或密码错误" />}</>
 
         <UserName
           name="account"
@@ -74,9 +70,7 @@ const Login: React.FC<LoginProps> = (props) => {
           <Link className={styles.register} to="/user/register">
             注册账户
           </Link>
-          <a>
-            忘记密码
-          </a>
+          <a>忘记密码</a>
         </div>
       </LoginForm>
     </div>

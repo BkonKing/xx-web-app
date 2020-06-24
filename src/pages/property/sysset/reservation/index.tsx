@@ -1,9 +1,14 @@
-import React from 'react'
-import TableList from '@/components/TableList'
-import UploadImage from '@/components/UploadImage'
-import { Input } from 'antd'
+import React from 'react';
+import TableList from '@/components/TableList';
+import UploadImage from '@/components/UploadImage';
+import { Input } from 'antd';
 import { ProColumns } from '@ant-design/pro-table';
-import { getReservationCategoryList, addReservationCategory, updateReservationCategory, deleteReservationCategory } from './service';
+import {
+  getReservationCategoryList,
+  addReservationCategory,
+  updateReservationCategory,
+  deleteReservationCategory,
+} from './service';
 
 const areasTableList: React.FC<{}> = () => {
   const columns: ProColumns<{}>[] = [
@@ -37,11 +42,16 @@ const areasTableList: React.FC<{}> = () => {
       title: '图标',
       dataIndex: 'icon',
       render: (_) => {
-        return <img width="30" src={String(_)} alt="图标" />
+        return <img width="30" src={String(_)} alt="图标" />;
       },
       renderFormItem: (item, { value, onChange }, form) => {
-        return <UploadImage action="https://www.mocky.io/v2/5cc8019d300000980a055e76" value={value}
-        onChange={onChange} />
+        return (
+          <UploadImage
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            value={value}
+            onChange={onChange}
+          />
+        );
       },
       rules: [
         {
@@ -54,8 +64,8 @@ const areasTableList: React.FC<{}> = () => {
       title: '是否启用',
       dataIndex: 'is_enabled',
       valueEnum: {
-        0: {text: '否'},
-        1: {text: '是'},
+        0: { text: '否' },
+        1: { text: '是' },
       },
       rules: [
         {
@@ -68,17 +78,17 @@ const areasTableList: React.FC<{}> = () => {
       dataIndex: 'id',
       hideInTable: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value}/>;
+        return <Input type="hidden" value={value} />;
       },
     },
     {
       dataIndex: 'parent_id',
       hideInTable: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value}/>;
+        return <Input type="hidden" value={value} />;
       },
-    }
-  ]
+    },
+  ];
   return (
     <TableList
       headerTitle="免费服务列表"
@@ -91,7 +101,7 @@ const areasTableList: React.FC<{}> = () => {
       updateData={updateReservationCategory}
       deleteData={deleteReservationCategory}
     />
-  )
-}
+  );
+};
 
-export default areasTableList
+export default areasTableList;

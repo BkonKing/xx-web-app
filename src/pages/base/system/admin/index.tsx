@@ -1,12 +1,12 @@
-import React from 'react'
-import TableList from '@/components/TableList'
-import { Input } from 'antd'
+import React from 'react';
+import TableList from '@/components/TableList';
+import { Input } from 'antd';
 import { ProColumns } from '@ant-design/pro-table';
 
-import { genderObj } from '@/const/columns'
-import { isPhone } from '@/utils/validate'
-import { getAdminList, addAdmin, updateAdmin, deleteAdmin } from './service'
-import styles from './style.less'
+import { genderObj } from '@/const/columns';
+import { isPhone } from '@/utils/validate';
+import { getAdminList, addAdmin, updateAdmin, deleteAdmin } from './service';
+import styles from './style.less';
 
 const adminTableList: React.FC<{}> = () => {
   const columns: ProColumns<{}>[] = [
@@ -25,18 +25,22 @@ const adminTableList: React.FC<{}> = () => {
       dataIndex: 'password',
       hideInTable: true,
       renderFormItem: (item, { value, onChange }) => {
-        const warning = value ?
+        const warning = value ? (
           <div className={styles.warning__text}>修改状态下密码不更改则不会更新密码</div>
-          : ''
-        return <>
-          <Input.Password value={value} onChange={onChange} />
-          {warning}
-        </>
-      }
+        ) : (
+          ''
+        );
+        return (
+          <>
+            <Input.Password value={value} onChange={onChange} />
+            {warning}
+          </>
+        );
+      },
     },
     {
       title: '真实姓名',
-      dataIndex: 'realname'
+      dataIndex: 'realname',
     },
     {
       title: '手机号',
@@ -45,17 +49,17 @@ const adminTableList: React.FC<{}> = () => {
         {
           validator: (_, value) => {
             if (!value || isPhone(value)) {
-              return Promise.resolve()
+              return Promise.resolve();
             }
-            return Promise.reject('请输入正确的手机号或电话格式')
-          }
-        }
-      ]
+            return Promise.reject('请输入正确的手机号或电话格式');
+          },
+        },
+      ],
     },
     {
       title: '性别',
       dataIndex: 'gender',
-      valueEnum: genderObj
+      valueEnum: genderObj,
     },
     {
       title: '权限角色',
@@ -83,10 +87,10 @@ const adminTableList: React.FC<{}> = () => {
       hideInTable: true,
       // hideInForm: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value} />;
+        return <Input type="hidden" value={value} />;
       },
     },
-  ]
+  ];
   return (
     <TableList
       headerTitle="管理用户列表"
@@ -100,7 +104,7 @@ const adminTableList: React.FC<{}> = () => {
       updateData={updateAdmin}
       deleteData={deleteAdmin}
     />
-  )
-}
+  );
+};
 
-export default adminTableList
+export default adminTableList;

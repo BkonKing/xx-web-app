@@ -9,6 +9,6 @@ export async function getAuthorized(params?: any) {
 export async function setAuthorized(params: any) {
   return request('/basicset/setting/setAuthorized', {
     method: 'POST',
-    data: params
+    data: params,
   });
 }

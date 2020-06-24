@@ -16,13 +16,13 @@ const SetJpush: FC<SetJpushProps> = (props) => {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState<boolean>(true);
   const getJpushForm = () => {
-    getJpush().then(({data}) => {
-      form.setFieldsValue(data)
-    })
-  }
+    getJpush().then(({ data }) => {
+      form.setFieldsValue(data);
+    });
+  };
   useEffect(() => {
-    getJpushForm()
-  }, [])
+    getJpushForm();
+  }, []);
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -43,8 +43,8 @@ const SetJpush: FC<SetJpushProps> = (props) => {
   };
 
   const toEdit = () => {
-    setDisabled(false)
-  }
+    setDisabled(false);
+  };
 
   const onFinish = (values: { [key: string]: any }) => {
     const { dispatch } = props;
@@ -52,7 +52,7 @@ const SetJpush: FC<SetJpushProps> = (props) => {
       type: 'basicsetAndsetJpush/submitRegularForm',
       payload: values,
     }).then(() => {
-      setDisabled(true)
+      setDisabled(true);
     });
   };
 
@@ -80,7 +80,7 @@ const SetJpush: FC<SetJpushProps> = (props) => {
             rules={[
               {
                 required: true,
-                message: "请输入",
+                message: '请输入',
               },
             ]}
           >
@@ -93,7 +93,7 @@ const SetJpush: FC<SetJpushProps> = (props) => {
             rules={[
               {
                 required: true,
-                message: "请输入",
+                message: '请输入',
               },
             ]}
           >
@@ -106,7 +106,7 @@ const SetJpush: FC<SetJpushProps> = (props) => {
             rules={[
               {
                 required: true,
-                message: "请输入",
+                message: '请输入',
               },
             ]}
           >

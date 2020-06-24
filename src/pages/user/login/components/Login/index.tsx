@@ -34,15 +34,12 @@ const Login: LoginType = (props) => {
     onChange: props.onTabChange,
   });
   const otherChildren: React.ReactElement<unknown>[] = [];
-  React.Children.forEach(
-    props.children,
-    (child: React.ReactElement<unknown>) => {
-      if (!child) {
-        return;
-      }
-      otherChildren.push(child);
-    },
-  );
+  React.Children.forEach(props.children, (child: React.ReactElement<unknown>) => {
+    if (!child) {
+      return;
+    }
+    otherChildren.push(child);
+  });
   return (
     <LoginContext.Provider
       value={{

@@ -6,8 +6,8 @@ import { history } from 'umi';
  */
 import { extend } from 'umi-request';
 
-import { getStore, setStore, removeStore } from '@/utils/store'
-import { getToken } from '@/services/user'
+import { getStore, setStore, removeStore } from '@/utils/store';
+import { getToken } from '@/services/user';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -56,7 +56,7 @@ const request = extend({
   timeout: 60000,
   errorHandler, // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
-  prefix: '/api'
+  prefix: '/api',
   // prefix: 'https://test.mhshjy.com/nsolid/spi/v1'
 });
 
@@ -66,53 +66,55 @@ request.interceptors.request.use(async (url: any, options: any) => {
   const headers = {
     Accept: 'application/json',
     'Content-Type': 'application/x-www-form-urlencoded;application/json;',
-    ...options.headers
-  }
+    ...options.headers,
+  };
   if (!options.headers.Authorization && token) {
     headers.Authorization = token;
   }
-  return (
-    {
-      url,
-      options: {
-        ...options, headers, requestType: 'form'
-      },
-    }
-  );
-})
+  return {
+    url,
+    options: {
+      ...options,
+      headers,
+      requestType: 'form',
+    },
+  };
+});
 
 // response拦截器, 处理response
 request.interceptors.response.use(async (response) => {
   const data = await response.clone().json();
   if (response.status === 401 || data.code === '401') {
-    const isGetToken = response.url.indexOf('getToken') !== -1
-    const res = !isGetToken && await getToken({
-      headers: {
-        'Authorization': getStore({ name: 'refresh_token' })
-      }
-    })
+    const isGetToken = response.url.indexOf('getToken') !== -1;
+    const res =
+      !isGetToken &&
+      (await getToken({
+        headers: {
+          Authorization: getStore({ name: 'refresh_token' }),
+        },
+      }));
     if (res.success) {
       setStore({
         name: 'access_token',
-        content: res.access_token
+        content: res.access_token,
       });
       setStore({
         name: 'refresh_token',
-        content: res.refresh_token
+        content: res.refresh_token,
       });
-      message.warning('请重新操作')
+      message.warning('请重新操作');
     } else {
-      message.warning('token已经过期了，请重新登录')
-      removeStore({ name: 'access_token' })
-      removeStore({ name: 'refresh_token' })
+      message.warning('token已经过期了，请重新登录');
+      removeStore({ name: 'access_token' });
+      removeStore({ name: 'refresh_token' });
       history.replace({
-        pathname: '/login'
+        pathname: '/login',
       });
     }
-    return false
+    return false;
   }
   if (!data.success) {
-    message.warning(data.message)
+    message.warning(data.message);
   }
   return response;
 });

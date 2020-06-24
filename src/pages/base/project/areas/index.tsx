@@ -1,11 +1,11 @@
-import React, { useRef } from 'react'
-import TableList from '@/components/TableList'
-import { Input, Divider } from 'antd'
+import React, { useRef } from 'react';
+import TableList from '@/components/TableList';
+import { Input, Divider } from 'antd';
 import { ProColumns } from '@ant-design/pro-table';
 import { getAreasList, addAreas, updateAreas, deleteAreas } from './service';
 
 const areasTableList: React.FC<{}> = () => {
-  const parentRef = useRef()
+  const parentRef = useRef();
   const columns: ProColumns<{}>[] = [
     {
       title: '区域名称',
@@ -40,17 +40,17 @@ const areasTableList: React.FC<{}> = () => {
       dataIndex: 'id',
       hideInTable: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value} />;
+        return <Input type="hidden" value={value} />;
       },
     },
     {
       dataIndex: 'parent_id',
       hideInTable: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value} />;
+        return <Input type="hidden" value={value} />;
       },
-    }
-  ]
+    },
+  ];
   return (
     <TableList
       ref={parentRef}
@@ -59,17 +59,23 @@ const areasTableList: React.FC<{}> = () => {
       isAction
       isActionBar
       actionRender={(record: any) => {
-        const btn = record.level === '3' ? null : <><a
-          onClick={() => {
-            const newRecord = {
-              parent_id: record.id
-            }
-            parentRef.current.showAddModal(newRecord)
-          }}
-        >
-          添加
-      </a><Divider type="vertical" /></>
-        return btn
+        const btn =
+          record.level === '3' ? null : (
+            <>
+              <a
+                onClick={() => {
+                  const newRecord = {
+                    parent_id: record.id,
+                  };
+                  parentRef.current.showAddModal(newRecord);
+                }}
+              >
+                添加
+              </a>
+              <Divider type="vertical" />
+            </>
+          );
+        return btn;
       }}
       columns={columns}
       getData={getAreasList}
@@ -77,7 +83,7 @@ const areasTableList: React.FC<{}> = () => {
       updateData={updateAreas}
       deleteData={deleteAreas}
     />
-  )
-}
+  );
+};
 
-export default areasTableList
+export default areasTableList;
