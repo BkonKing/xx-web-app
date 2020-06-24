@@ -94,13 +94,14 @@ request.interceptors.response.use(async (response) => {
         },
       }));
     if (res.success) {
+      const { data: info } = res
       setStore({
         name: 'access_token',
-        content: res.access_token,
+        content: info.access_token,
       });
       setStore({
         name: 'refresh_token',
-        content: res.refresh_token,
+        content: info.refresh_token,
       });
       message.warning('请重新操作');
     } else {

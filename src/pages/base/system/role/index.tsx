@@ -60,10 +60,12 @@ const adminTableList: React.FC<{}> = () => {
   const showRoleTree = (id: number) => {
     getRoleMenu({
       roleId: id,
-    }).then(({ data }) => {
-      setTreeData(data.records);
-      setRoleTreeModal(true);
-      setRole_id(id);
+    }).then((res) => {
+      if (res.success) {
+        setTreeData(res.data.records);
+        setRoleTreeModal(true);
+        setRole_id(id);
+      }
     });
   };
   const saveRoleMenu = () => {

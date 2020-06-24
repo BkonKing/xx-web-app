@@ -38,8 +38,10 @@ const regionTableList: React.FC<{}> = () => {
     });
   };
   useEffect(() => {
-    getAreasList().then(({ data }) => {
-      setAreaOption(transformAreas(data));
+    getAreasList().then((res) => {
+      if (res.success) {
+        setAreaOption(transformAreas(res.data));
+      }
     });
   }, []);
   const changeArea = (value: any) => {
@@ -203,10 +205,12 @@ const regionTableList: React.FC<{}> = () => {
   const showRoleTree = (id: number) => {
     getRegionsMenu({
       projectId: id,
-    }).then(({ data }) => {
-      setTreeData(data.records);
-      setRegionTreeModal(true);
-      setProjectId(id);
+    }).then((res) => {
+      if (res.success) {
+        setTreeData(res.data.records);
+        setRegionTreeModal(true);
+        setProjectId(id);
+      }
     });
   };
   const saveRoleMenu = () => {

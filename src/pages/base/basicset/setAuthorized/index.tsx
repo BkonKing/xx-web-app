@@ -16,8 +16,10 @@ const SetAuthorized: FC<SetAuthorizedProps> = (props) => {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState<boolean>(true);
   const queryAuthorized = () => {
-    getAuthorized().then(({ data }) => {
-      form.setFieldsValue(data);
+    getAuthorized().then((res) => {
+      if (res.success) {
+        form.setFieldsValue(res.data);
+      }
     });
   };
   useEffect(() => {

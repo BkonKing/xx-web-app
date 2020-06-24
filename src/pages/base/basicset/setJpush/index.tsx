@@ -16,8 +16,10 @@ const SetJpush: FC<SetJpushProps> = (props) => {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState<boolean>(true);
   const getJpushForm = () => {
-    getJpush().then(({ data }) => {
-      form.setFieldsValue(data);
+    getJpush().then((res) => {
+      if (res.success) {
+        form.setFieldsValue(res.data);
+      }
     });
   };
   useEffect(() => {

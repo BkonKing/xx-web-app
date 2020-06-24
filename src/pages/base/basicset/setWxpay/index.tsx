@@ -16,8 +16,10 @@ const SetWxpay: FC<SetWxpayProps> = (props) => {
   const [form] = Form.useForm();
   const [disabled, setDisabled] = useState<boolean>(true);
   const queryWxpay = () => {
-    getWxpay().then(({ data }) => {
-      form.setFieldsValue(data);
+    getWxpay().then((res) => {
+      if (res.success) {
+        form.setFieldsValue(res.data);
+      }
     });
   };
   useEffect(() => {
