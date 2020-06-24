@@ -22,13 +22,15 @@ interface TableListProps {
   isActionBar?: boolean;
   searchable?: boolean | {};
   actionRender?: any;
-  pagination?: boolean
+  pagination?: any;
+  onSubmit?: Function;
+  onAmend? : Function;
 }
 
 interface ObjAnyProps { [propname: string]: any }
 
 const TableList = forwardRef((props: TableListProps, ref) => {
-  const { headerTitle, columns, getData, modalTitle, selectabled, addData, updateData, deleteData, isAction, isActionBar, searchable = false, actionRender, pagination = false } = props
+  const { headerTitle, columns, getData, modalTitle, selectabled, addData, updateData, deleteData, isAction, isActionBar, searchable = false, actionRender, pagination = false, onSubmit, onAmend } = props
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   const formRef = useRef<FormInstance>();
@@ -39,10 +41,13 @@ const TableList = forwardRef((props: TableListProps, ref) => {
   const handleAdd = async (fields: ObjAnyProps) => {
     const hide = message.loading('正在添加');
     try {
-      await addData({ ...fields });
+      const data = await addData({ ...fields });
       hide();
-      message.success('添加成功');
-      return true;
+      if (data.success) {
+        message.success('添加成功');
+        return true;
+      }
+      return false;
     } catch (error) {
       hide();
       message.error('添加失败请重试！');
@@ -57,11 +62,13 @@ const TableList = forwardRef((props: TableListProps, ref) => {
   const handleUpdate = async (fields: ObjAnyProps) => {
     const hide = message.loading('正在配置');
     try {
-      await updateData(fields);
+      const data = await updateData(fields);
       hide();
-
-      message.success('配置成功');
-      return true;
+      if (data.success) {
+        message.success('配置成功');
+        return true;
+      }
+      return false;
     } catch (error) {
       hide();
       message.error('配置失败请重试！');
@@ -161,10 +168,14 @@ const TableList = forwardRef((props: TableListProps, ref) => {
   }
 
   const showEditModal = (item: Partial<ObjAnyProps>) => {
+    let data = item
+    if (onAmend) {
+      data = onAmend(item)
+    }
     handleModalVisible(true);
     setTimeout(() => {
       if (formRef.current) {
-        formRef.current.setFieldsValue(item);
+        formRef.current.setFieldsValue(data);
       }
     }, 0);
   };
@@ -210,6 +221,10 @@ const TableList = forwardRef((props: TableListProps, ref) => {
       <ProTable<ObjAnyProps, ObjAnyProps>
         formRef={formRef}
         onSubmit={async (value) => {
+          if (onSubmit) {
+            // eslint-disable-next-line no-param-reassign
+            value = onSubmit(value)
+          }
           let success = false
           if (value.id) {
             success = await handleUpdate(value);
@@ -269,6 +284,7 @@ const TableList = forwardRef((props: TableListProps, ref) => {
           }
           return []
         }}
+        pagination={ pagination }
         search={searchable}
         request={(params) => requestData(params)}
         columns={columns}

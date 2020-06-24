@@ -6,79 +6,77 @@ export default {
     "success": true,
     "message": "OK",
     "code": 200,
-    "data": {
-      "records": [{
-        "id": "1",
-        "parent_id": "0",
-        "icon": "https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png",
-        "level": "1",
-        "model": "",
-        "controller": "",
-        "action": "",
-        "menu_text": "系统管理",
-        "list_order": "1",
-        "display": "1",
-        "children": [
-          {
-            "id": "5",
-            "parent_id": "1",
-            "icon": "",
-            "level": "5",
-            "model": "",
-            "controller": "",
-            "action": "",
-            "menu_text": "权限菜单",
-            "list_order": "1",
-            "display": "1",
-          },
-          {
-            "id": "6",
-            "parent_id": "1",
-            "icon": "",
-            "level": "5",
-            "model": "",
-            "controller": "",
-            "action": "",
-            "menu_text": "权限角色",
-            "list_order": "2",
-            "display": "1",
-          }
-        ]
-    },{
-        "id": "2",
-        "parent_id": "1",
-        "icon": "",
-        "level": "2",
-        "model": "system",
-        "controller": "admin",
-        "action": "getAdminList",
-        "menu_text": "管理用户",
-        "list_order": "1",
-        "display": "1"
-    },{
-        "id": "3",
-        "parent_id": "1",
-        "icon": "",
-        "level": "2",
-        "model": "system",
-        "controller": "role",
-        "action": "getRoleList",
-        "menu_text": "权限角色",
-        "list_order": "1",
-        "display": "1"
-    },{
-        "id": "4",
-        "parent_id": "1",
-        "icon": "",
-        "level": "2",
-        "model": "system",
-        "controller": "menu",
-        "action": "getMenuList",
-        "menu_text": "权限菜单",
-        "list_order": "1",
-        "display": "1"
-    }]
-    },
+    "data": [{
+      "id": "1",
+      "parent_id": "0",
+      "icon": "https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png",
+      "level": "1",
+      "model": "",
+      "controller": "",
+      "action": "",
+      "menu_text": "系统管理",
+      "list_order": "1",
+      "display": "1",
+      "children": [
+        {
+          "id": "5",
+          "parent_id": "1",
+          "icon": "",
+          "level": "5",
+          "model": "",
+          "controller": "",
+          "action": "",
+          "menu_text": "权限菜单",
+          "list_order": "1",
+          "display": "1",
+        },
+        {
+          "id": "6",
+          "parent_id": "1",
+          "icon": "",
+          "level": "5",
+          "model": "",
+          "controller": "",
+          "action": "",
+          "menu_text": "权限角色",
+          "list_order": "2",
+          "display": "1",
+        }
+      ]
+    }, {
+      "id": "2",
+      "parent_id": "1",
+      "icon": "",
+      "level": "2",
+      "model": "system",
+      "controller": "admin",
+      "action": "getAdminList",
+      "menu_text": "管理用户",
+      "list_order": "1",
+      "display": "1"
+    }, {
+      "id": "3",
+      "parent_id": "1",
+      "icon": "",
+      "level": "2",
+      "model": "system",
+      "controller": "role",
+      "action": "getRoleList",
+      "menu_text": "权限角色",
+      "list_order": "1",
+      "display": "1"
+    }, {
+      "id": "4",
+      "parent_id": "1",
+      "icon": "",
+      "level": "2",
+      "model": "system",
+      "controller": "menu",
+      "action": "getMenuList",
+      "menu_text": "权限菜单",
+      "list_order": "1",
+      "display": "1"
+    }],
     "timestamp": "1585622391072"
   },
   // 'POST /api/system/menu/deleteMenu': {
@@ -335,10 +333,10 @@ export default {
       }]
     }
   },
-  'POST /api/system/role/updateRoleMenu':  {
-    "success":true,
-    "message":"OK",
-    "code":200,
-    "timestamp":"1585622391072"
+  'POST /api/system/role/updateRoleMenu': {
+    "success": true,
+    "message": "OK",
+    "code": 200,
+    "timestamp": "1585622391072"
   }
 };

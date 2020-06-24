@@ -1,10 +1,13 @@
+/* eslint-disable prefer-destructuring */
 import React, { useState, useRef, useEffect } from 'react'
+import { message, Divider, Input, Cascader } from 'antd'
+import { ProColumns } from '@ant-design/pro-table';
+
 import TableList from '@/components/TableList';
 import SimpleTree from '@/components/SimpleTree'
 import SimpleModal from '@/components/SimpleModal'
 import UploadImage from '@/components/UploadImage'
-import { message, Divider, Input, Cascader } from 'antd'
-import { ProColumns } from '@ant-design/pro-table';
+import PreviewImage from '@/components/PreviewImage';
 import { isPhone, longitudeValid, latitudeValid } from '@/utils/validate'
 
 import { getRegionsList, addRegions, updateRegions, deleteRegions, getRegionsMenu, updateRegionsMenu } from './service';
@@ -34,33 +37,29 @@ const regionTableList: React.FC<{}> = () => {
       setAreaOption(transformAreas(data))
     })
   }, [])
-  const changeArea = (form: any, value: any) => {
-    const formData = form.getFieldsValue()
-    form.setFieldsValue(formData)
-    console.log(formData);
+  const changeArea = (value: any) => {
+    const newData = value
+    newData.province_id = value.areaArr[0]
+    newData.city_id = value.areaArr[1]
+    newData.area_id = value.areaArr[2]
+    delete newData.areaArr
+    return newData
+  }
+  const onAmend = (value: any) => {
+    const newData = value
+    newData.areaArr = [value.province_id, value.city_id, value.area_id]
+    return newData
   }
   const columns: ProColumns<{}>[] = [
     {
       title: '省',
       dataIndex: 'province',
       hideInForm: true,
-      // rules: [
-      //   {
-      //     required: true,
-      //     message: '省为必填项',
-      //   },
-      // ],
     },
     {
       title: '市',
       dataIndex: 'city',
       hideInForm: true,
-      // rules: [
-      //   {
-      //     required: true,
-      //     message: '市为必填项',
-      //   },
-      // ],
     },
     {
       title: '区',
@@ -75,11 +74,27 @@ const regionTableList: React.FC<{}> = () => {
     },
     {
       title: '省市县',
-      dataIndex: 'city',
+      dataIndex: 'areaArr',
       hideInTable: true,
-      renderFormItem(_, {value, onChange}, form) {
-        return <Cascader options={areaOption} onChange={() => {changeArea(form, value)}} placeholder="选择省市县" />
-      }
+      renderFormItem(_, { value, onChange }) {
+        return <Cascader value={value} options={areaOption} onChange={onChange} placeholder="选择省市县" />
+      },
+      rules: [
+        {
+          required: true,
+          message: '省市县为必填项',
+        },
+      ],
+    },
+    {
+      title: '地址',
+      dataIndex: 'address',
+      rules: [
+        {
+          required: true,
+          message: '地址为必填项',
+        },
+      ],
     },
     {
       title: '小区名称',
@@ -95,11 +110,11 @@ const regionTableList: React.FC<{}> = () => {
       title: '小区缩略图',
       dataIndex: 'thumb',
       render: (_) => {
-        return <img width="30" src={String(_)} alt="小区缩略图" />
+        return <PreviewImage src={String(_)} alt="小区缩略图" />
       },
       renderFormItem: (item, { value, onChange }, form) => {
         return <UploadImage action="https://www.mocky.io/v2/5cc8019d300000980a055e76" value={value}
-        onChange={onChange} />
+          onChange={onChange} />
       },
       rules: [
         {
@@ -143,7 +158,7 @@ const regionTableList: React.FC<{}> = () => {
         },
         {
           validator: (_, value) =>
-          longitudeValid(value) ? Promise.resolve()
+            longitudeValid(value) ? Promise.resolve()
               : Promise.reject('经度必须在-180~180之间')
         },
       ],
@@ -158,7 +173,7 @@ const regionTableList: React.FC<{}> = () => {
         },
         {
           validator: (_, value) =>
-          latitudeValid(value) ? Promise.resolve()
+            latitudeValid(value) ? Promise.resolve()
               : Promise.reject('经度必须在-90~90之间')
         },
       ],
@@ -167,14 +182,14 @@ const regionTableList: React.FC<{}> = () => {
       dataIndex: 'id',
       hideInTable: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value}/>;
+        return <Input type='hidden' value={value} />;
       },
     },
   ]
   const showRoleTree = (id: number) => {
     getRegionsMenu({
       projectId: id
-    }).then(({data}) => {
+    }).then(({ data }) => {
       setTreeData(data.records);
       setRegionTreeModal(true);
       setProjectId(id);
@@ -203,13 +218,15 @@ const regionTableList: React.FC<{}> = () => {
         addData={addRegions}
         updateData={updateRegions}
         deleteData={deleteRegions}
-        actionRender={(record:any) => {
+        onAmend={onAmend}
+        onSubmit={changeArea}
+        actionRender={(record: any) => {
           return <><a
-          onClick={() => {
-            showRoleTree(record.id)
-          }}
-        >
-          设置物业菜单
+            onClick={() => {
+              showRoleTree(record.id)
+            }}
+          >
+            设置物业菜单
         </a><Divider type="vertical" /></>
         }}
       />

@@ -3,6 +3,7 @@ import TableList from '@/components/TableList'
 import UploadImage from '@/components/UploadImage'
 import { ProColumns } from '@ant-design/pro-table';
 import { Divider, Input } from 'antd'
+import PreviewImage from '@/components/PreviewImage';
 import { menuItem } from './data'
 import { getMenuList, addMenu, deleteMenu, updateMenu } from './service';
 
@@ -23,11 +24,11 @@ const adminTableList: React.FC<{}> = () => {
       title: '菜单图标',
       dataIndex: 'icon',
       render: (_) => {
-        return <img width="30" src={String(_)} alt="菜单图标" />
+        return <PreviewImage src={String(_)} alt="菜单图标" />
       },
-      renderFormItem: (item, { value, onChange }, form) => {
+      renderFormItem: (item, { value, onChange }) => {
         return <UploadImage action="https://www.mocky.io/v2/5cc8019d300000980a055e76" value={value}
-        onChange={onChange} />
+          onChange={onChange} />
       }
     },
     {
@@ -64,14 +65,14 @@ const adminTableList: React.FC<{}> = () => {
       dataIndex: 'id',
       hideInTable: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value}/>;
+        return <Input type='hidden' value={value} />;
       },
     },
     {
       dataIndex: 'parent_id',
       hideInTable: true,
       renderFormItem: (_, { value }) => {
-        return <Input type='hidden' value={value}/>;
+        return <Input type='hidden' value={value} />;
       },
     }
   ];
@@ -84,16 +85,16 @@ const adminTableList: React.FC<{}> = () => {
       getData={getMenuList}
       isAction
       isActionBar
-      actionRender={(record:any) => {
+      actionRender={(record: any) => {
         return <><a
-        onClick={() => {
-          const newRecord = {
-            parent_id: record.id
-          }
-          parentRef.current.showAddModal(newRecord)
-        }}
-      >
-        添加
+          onClick={() => {
+            const newRecord = {
+              parent_id: record.id
+            }
+            parentRef.current.showAddModal(newRecord)
+          }}
+        >
+          添加
       </a><Divider type="vertical" /></>
       }}
       addData={addMenu}

@@ -11,7 +11,6 @@ import ProLayout, {
 } from '@ant-design/pro-layout';
 import React, { useEffect, useState } from 'react';
 import { Link, connect, Dispatch } from 'umi';
-import { GithubOutlined } from '@ant-design/icons';
 import { Result, Button } from 'antd';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
@@ -84,6 +83,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   useEffect(() => {
     queryMenu().then(({ data }) => {
       setMenuData(data.records || []);
+    }).catch((err) => {
+      console.error(err)
     })
   }, []);
 
@@ -136,8 +137,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           );
       }}
       footerRender={() => defaultFooterDom}
-      menuDataRender={() => menuData}
-      // menuDataRender={menuDataRender}
+      // menuDataRender={() => menuData}
+      menuDataRender={menuDataRender}
       rightContentRender={() => <RightContent />}
       {...props}
       {...settings}
