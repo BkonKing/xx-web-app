@@ -165,21 +165,22 @@ const TableList = forwardRef((props: TableListProps, ref) => {
     if (pagination) {
       newParams.pageNum = pageNum;
     }
-    return getData(newParams).then(({ data }: ObjAnyProps) => {
+    return getData(newParams).then((res: ObjAnyProps) => {
+      const { success } = res;
       if (pagination) {
-        const { records, current, size, total } = data;
+        const { records, current, size, total } = res.data;
         const columnData = addKey(records);
         return {
           current,
           pageSize: size,
-          success: true,
+          success,
           data: columnData,
           total,
         };
       }
-      const columnData = addKey(data);
+      const columnData = addKey(res.data);
       return {
-        success: true,
+        success,
         data: columnData,
       };
     });

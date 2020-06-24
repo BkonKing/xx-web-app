@@ -54,14 +54,14 @@ const defaultFooterDom = (
  * 使用Authorized检查所有菜单项
  */
 
-const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
-  menuList.map((item) => {
-    const localItem = {
-      ...item,
-      children: item.children ? menuDataRender(item.children) : undefined,
-    };
-    return Authorized.check(item.authority, localItem, null) as MenuDataItem;
-  });
+// const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] =>
+//   menuList.map((item) => {
+//     const localItem = {
+//       ...item,
+//       children: item.children ? menuDataRender(item.children) : undefined,
+//     };
+//     return Authorized.check(item.authority, localItem, null) as MenuDataItem;
+//   });
 
 const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
   const [menuData, setMenuData] = useState([]);
@@ -73,14 +73,14 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       pathname: '/',
     },
   } = props;
-  /**
-   * constructor
-   */
 
   useEffect(() => {
     queryMenu()
-      .then(({ data }) => {
-        setMenuData(data.records || []);
+      .then((res) => {
+        if (res.success) {
+          const { data } = res;
+          setMenuData((data && data.records) || []);
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -136,8 +136,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         );
       }}
       footerRender={() => defaultFooterDom}
-      // menuDataRender={() => menuData}
-      menuDataRender={menuDataRender}
+      menuDataRender={() => menuData}
+      // menuDataRender={menuDataRender}
       rightContentRender={() => <RightContent />}
       {...props}
       {...settings}
