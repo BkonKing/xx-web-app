@@ -129,7 +129,7 @@ const regionTableList: React.FC<{}> = () => {
       renderFormItem: (item, { value, onChange }, form) => {
         return (
           <UploadImage
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            action="/api/upload/uploads/uImages"
             value={value}
             onChange={onChange}
           />

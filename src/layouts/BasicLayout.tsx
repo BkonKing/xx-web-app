@@ -9,6 +9,7 @@ import ProLayout, {
   Settings,
   DefaultFooter,
 } from '@ant-design/pro-layout';
+import { createFromIconfontCN } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import { Link, connect, Dispatch } from 'umi';
 import { Result, Button } from 'antd';
@@ -18,6 +19,10 @@ import { ConnectState } from '@/models/connect';
 import { getAuthorityFromRouter } from '@/utils/utils';
 import { queryMenu } from '@/services/user';
 import logo from '../assets/logo.svg';
+
+const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_1908587_ppeo1ml9et.js',
+});
 
 const noMatch = (
   <Result
@@ -113,12 +118,31 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         </Link>
       )}
       onCollapse={handleMenuCollapse}
+      subMenuItemRender={(HeaderViewProps, defaultDom) => {
+        return (
+          <>
+            <IconFont type={HeaderViewProps.icon} style={{ fontSize: '20px' }} />
+            {HeaderViewProps.name}
+          </>
+        );
+      }}
       menuItemRender={(menuItemProps, defaultDom) => {
-        if (menuItemProps.isUrl || !menuItemProps.path) {
-          return defaultDom;
+        console.log(menuItemProps.icon);
+        if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {
+          return (
+            <>
+              <IconFont type={menuItemProps.icon} style={{ fontSize: '20px' }} />
+              {menuItemProps.name}
+            </>
+          );
         }
 
-        return <Link to={menuItemProps.path}>{defaultDom}</Link>;
+        return (
+          <Link to={menuItemProps.path}>
+            <IconFont type={menuItemProps.icon} style={{ fontSize: '20px' }} />
+            {menuItemProps.name}
+          </Link>
+        );
       }}
       breadcrumbRender={(routers = []) => [
         {

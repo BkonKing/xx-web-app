@@ -23,18 +23,12 @@ const adminTableList: React.FC<{}> = () => {
     {
       title: '菜单图标',
       dataIndex: 'icon',
-      render: (_) => {
-        return <PreviewImage src={String(_)} alt="菜单图标" />;
-      },
-      renderFormItem: (item, { value, onChange }) => {
-        return (
-          <UploadImage
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            value={value}
-            onChange={onChange}
-          />
-        );
-      },
+      rules: [
+        {
+          required: true,
+          message: '菜单图标为必填项',
+        },
+      ],
     },
     {
       title: '模块',
