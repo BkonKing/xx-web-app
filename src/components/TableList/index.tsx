@@ -251,6 +251,10 @@ const TableList = forwardRef((props: TableListProps, ref) => {
       >
         <ProTable<ObjAnyProps, ObjAnyProps>
           formRef={formRef}
+          form={{
+            labelCol: { span: 7 },
+            wrapperCol: { span: 13 },
+          }}
           onSubmit={async (value) => {
             if (onSubmit) {
               // eslint-disable-next-line no-param-reassign
