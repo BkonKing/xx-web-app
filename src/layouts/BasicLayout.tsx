@@ -127,7 +127,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         );
       }}
       menuItemRender={(menuItemProps, defaultDom) => {
-        console.log(menuItemProps.icon);
+        // console.log(menuItemProps.icon);
         if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {
           return (
             <>
