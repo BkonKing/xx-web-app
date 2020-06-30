@@ -120,10 +120,12 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       onCollapse={handleMenuCollapse}
       subMenuItemRender={(HeaderViewProps, defaultDom) => {
         return (
-          <>
-            <IconFont type={HeaderViewProps.icon} style={{ fontSize: '20px' }} />
-            {HeaderViewProps.name}
-          </>
+          <span>
+            <span className="anticon anticon-dashboard">
+              <IconFont type={HeaderViewProps.icon} style={{ fontSize: '20px' }} />
+            </span>
+            <span>{HeaderViewProps.name}</span>
+          </span>
         );
       }}
       menuItemRender={(menuItemProps, defaultDom) => {
@@ -132,7 +134,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           return (
             <>
               <IconFont type={menuItemProps.icon} style={{ fontSize: '20px' }} />
-              {menuItemProps.name}
+              <span>{menuItemProps.name}</span>
             </>
           );
         }

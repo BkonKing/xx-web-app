@@ -1,10 +1,10 @@
-import React, { useState, useImperativeHandle, forwardRef } from 'react';
+import React, { useState, useImperativeHandle, forwardRef, useEffect } from 'react';
 import { Tree } from 'antd';
 
 // const { TreeNode } = Tree;
 
-const RoleTree = forwardRef((props: { data: [] }, ref) => {
-  const { data } = props;
+const RoleTree = forwardRef((props: { data: [], checkedKeyData: [] }, ref) => {
+  const { data, checkedKeyData } = props;
   const [checkedKeys, setCheckey] = useState<string[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
   const lastExpandedKeys: string[] = [];
@@ -33,13 +33,19 @@ const RoleTree = forwardRef((props: { data: [] }, ref) => {
     getData: () => checkedKeys,
   }));
 
+  useEffect(() => {
+    setCheckey(checkedKeyData)
+  }, [])
+
   const onExpand = (expandedKeyData: any) => {
     setExpandedKeys(expandedKeyData);
     setAutoExpandParent(false);
   };
 
-  const onCheck = (checkedKeyData: any) => {
-    setCheckey(checkedKeyData);
+  const onCheck = (checkedKeyData: any, e: any) => {
+    // halfCheckedKeys 父级半选中数组
+    const checkedKeysResult = [...checkedKeyData, ...e.halfCheckedKeys]
+    setCheckey(checkedKeysResult);
   };
 
   return (

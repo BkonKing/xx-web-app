@@ -19,6 +19,7 @@ const adminTableList: React.FC<{}> = () => {
   const tableRef = useRef();
   const [roleTreeModal, setRoleTreeModal] = useState<boolean>(false);
   const [treeData, setTreeData] = useState<[]>([]);
+  const [checkedKeyData, setCheckedKeyData] = useState<[]>([]);
   const [role_id, setRole_id] = useState<number>();
   const columns: ProColumns<{}>[] = [
     {
@@ -63,6 +64,7 @@ const adminTableList: React.FC<{}> = () => {
     }).then((res) => {
       if (res.success) {
         setTreeData(res.data.records);
+        setCheckedKeyData(res.data.allots.split(','));
         setRoleTreeModal(true);
         setRole_id(id);
       }
@@ -73,9 +75,11 @@ const adminTableList: React.FC<{}> = () => {
     updateRoleMenu({
       role_id,
       menu_allots: checkedArr.join(','),
-    }).then(() => {
-      message.success('保存成功');
-      setRoleTreeModal(false);
+    }).then((res) => {
+      if (res.success) {
+        message.success('保存成功');
+        setRoleTreeModal(false);
+      }
     });
   };
   return (
@@ -123,7 +127,7 @@ const adminTableList: React.FC<{}> = () => {
         modalVisible={roleTreeModal}
         onOk={saveRoleMenu}
       >
-        <RoleTree ref={parentRef} data={treeData} />
+        <RoleTree ref={parentRef} data={treeData} checkedKeyData={checkedKeyData} />
       </SimpleModal>
     </>
   );
