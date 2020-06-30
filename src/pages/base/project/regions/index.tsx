@@ -23,6 +23,7 @@ const regionTableList: React.FC<{}> = () => {
   const [regionTreeModal, setRegionTreeModal] = useState<boolean>(false);
   const [treeData, setTreeData] = useState<[]>([]);
   const [projectId, setProjectId] = useState<number>();
+  const [checkedKeyData, setCheckedKeyData] = useState<[]>([]);
   const [areaOption, setAreaOption] = useState<[]>([]);
   const transformAreas = (data: any) => {
     return data.map((obj: any) => {
@@ -208,6 +209,7 @@ const regionTableList: React.FC<{}> = () => {
     }).then((res) => {
       if (res.success) {
         setTreeData(res.data.records);
+        setCheckedKeyData(res.data.allots.split(','));
         setRegionTreeModal(true);
         setProjectId(id);
       }
@@ -218,9 +220,11 @@ const regionTableList: React.FC<{}> = () => {
     updateRegionsMenu({
       id: projectId,
       menu_allots: checkedArr.join(','),
-    }).then(() => {
-      message.success('保存成功');
-      setRegionTreeModal(false);
+    }).then((res) => {
+      if (res.success) {
+        message.success('保存成功');
+        setRegionTreeModal(false);
+      }
     });
   };
   return (
@@ -259,7 +263,7 @@ const regionTableList: React.FC<{}> = () => {
         modalVisible={regionTreeModal}
         onOk={saveRoleMenu}
       >
-        <SimpleTree ref={parentRef} data={treeData} />
+        <SimpleTree ref={parentRef} data={treeData} checkedKeyData={checkedKeyData}  />
       </SimpleModal>
     </>
   );
