@@ -4,6 +4,6 @@ import styles from './Welcome.less';
 
 export default (): React.ReactNode => (
   <PageHeaderWrapper>
-    <div className={styles.pre}>欢迎使用美好生活家园后台管理系统</div>
+    <div className={styles.pre}>欢迎使用美好生活家园管理系统</div>
   </PageHeaderWrapper>
 );
